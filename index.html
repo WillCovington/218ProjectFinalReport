@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1d19">
+  <meta name="description" content="Cucumber Cutting Frenzy — an event-driven PIC32 arcade game integrating capacitive sensing, break-beam feedback, servo actuation and LED displays. Explore the engineering process and project documentation.">
+  <title>Cucumber Cutting Frenzy — Engineering Project</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+  <header class="site-header" id="top">
+    <div class="nav-inner wrap">
+      <a class="brand" href="#top" aria-label="Cucumber Cutting Frenzy home">
+        <span class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 4v24M4 16h24M8 8l16 16M24 8 8 24" stroke="currentColor" stroke-width="1.5" opacity=".8"/><circle cx="16" cy="16" r="4" fill="currentColor"/></svg></span>
+        <span class="brand-type">CCF<span class="brand-divider">/</span><span class="brand-sub">PROJECT LOG</span></span>
+      </a>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Open navigation" id="menuToggle"><span></span><span></span><span></span></button>
+      <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation">
+        <a href="#overview">Overview</a>
+        <a href="#process">Process</a>
+        <a href="#electrical">Electrical</a>
+        <a href="#mechanical">Mechanical</a>
+        <a href="#states">State machine</a>
+        <a href="#firmware">Software</a>
+        <a class="nav-contact" href="#gallery">Gallery <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero section-dark" id="overview">
+      <div class="hero-grid wrap">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> ME218A: Smart Product Design Fundamentals <span class="year">2026</span></div>
+          <h1>Cucumber<br><span class="outlined-word">Cutting</span><br><span class="green-word">Frenzy</span></h1>
+          <p class="hero-description">An interactive, timed chopping game that brings sensors, embedded software, sound, and mechanical actuation together in a playful reward system.</p>
+          <div class="hero-actions">
+            <a class="btn btn-lime" href="#story">Explore the project <span aria-hidden="true">↗</span></a>
+            <a class="btn btn-outline-light" href="#states">View the game flow <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="Placeholder for a real photograph of the completed Cucumber Cutting Frenzy system">
+          <div class="diagram-headline"><span>FIG. 01 / COMPLETED SYSTEM</span><span>PROJECT PHOTOGRAPH</span></div>
+          <div class="stage hero-image-frame" data-media-slot>
+            <img src="assets/images/system-overview.jpg" alt="Photograph of the completed Cucumber Cutting Frenzy game" loading="eager">
+            <div class="hero-photo-placeholder">
+              <span class="photo-placeholder-symbol" aria-hidden="true">▧</span>
+              <strong>YOUR SYSTEM PHOTO</strong>
+              <p>Replace this placeholder with a real photo of the complete game.</p>
+              <code>assets/images/system-overview.jpg</code>
+            </div>
+          </div>
+          <div class="hero-art-bottom"><span>CUCUMBER CUTTING FRENZY</span><span>FINAL BUILD / FIG. 01</span></div>
+        </div>
+      </div>
+      <div class="stats-strip"><div class="wrap stat-grid"><div class="stat"><strong>05</strong><span>DIFFICULTY LEVELS</span></div><div class="stat"><strong>60<span class="stat-unit">s</span></strong><span>GAMEPLAY ROUND</span></div><div class="stat"><strong>02</strong><span>SERVO ACTUATORS</span></div><div class="stat"><strong>05</strong><span>EVENT-DRIVEN SERVICES</span></div></div></div>
+    </section>
+
+    <section class="section section-paper" id="story">
+      <div class="wrap">
+        <div class="section-heading"><div><p class="kicker">01 / THE IDEA</p><h2>A game with an<br><em>engineering core.</em></h2></div><p class="heading-aside">Physical gestures become digital events. Those events drive light, sound, a moving timer arm, and a treat-dispenser mechanism.</p></div>
+        <div class="overview-grid">
+          <div class="overview-feature">
+            <span class="micro-label">HOW TO PLAY</span>
+            <div class="play-step"><span class="step-index">01</span><div><h3>Set the challenge</h3><p>Turn the potentiometer to select one of five difficulty levels. The required cuts scale from 5 to 25 per cucumber.</p></div></div>
+            <div class="play-step"><span class="step-index">02</span><div><h3>Grab the handle</h3><p>A capacitive touch sensor recognizes the player holding the knife. A three-second audio countdown begins.</p></div></div>
+            <div class="play-step"><span class="step-index">03</span><div><h3>Lift, then chop</h3><p>Raise the knife to clear the break-beam before pressing the chop button. Valid chops count toward the selected target.</p></div></div>
+            <div class="play-step"><span class="step-index">04</span><div><h3>Earn the reward</h3><p>Completed cucumbers earn treats. When the 60-second round ends, a servo-driven dispenser delivers the earned reward.</p></div></div>
+          </div>
+          <!-- PLAYABLE GAME: all the controls below are simulated in browser JavaScript. -->
+          <div class="game-demo" id="gameDemo">
+            <div class="game-demo-intro">
+              <div class="demo-topline"><span class="tag tag-green">PLAYABLE DEMO</span><span>01 / INTERACTIVE EXPERIENCE</span></div>
+              <h3>Your turn to <em>chop.</em></h3>
+              <p>Turn the difficulty knob, hold the knife handle through the 3-second countdown, then drag it <strong>up and down</strong> to make each cut. Keep holding until time runs out!</p>
+            </div>
+            <div class="game-console">
+              <div class="game-console-bar"><span><i class="live-dot"></i> CUCUMBER CUTTING FRENZY / WEB EDITION</span><span id="gamePhaseLabel">READY</span></div>
+              <div class="game-board" id="gameBoard">
+                <div class="board-groove" aria-hidden="true"></div>
+                <div class="game-hud game-hud-time" aria-label="Time remaining"><span>TIME LEFT</span><strong><span id="gameTime">60</span><small> s</small></strong></div>
+                <div class="game-hud game-hud-score"><span>CUCUMBERS</span><strong id="gameScore">00</strong></div>
+                <div class="board-stand" aria-hidden="true"><span></span></div>
+                <div class="board-cucumber" id="gameCucumber" aria-label="Cucumber with six indicator lights">
+                  <div class="cucumber-gloss"></div>
+                  <div class="cucumber-leds" id="gameLeds" aria-label="Difficulty indicator">
+                    <span class="cucumber-led"></span><span class="cucumber-led"></span><span class="cucumber-led"></span><span class="cucumber-led"></span><span class="cucumber-led"></span><span class="cucumber-led"></span>
+                  </div>
+                  <div class="cucumber-seams" aria-hidden="true"></div>
+                </div>
+                <div class="knife-rig" id="knifeRig" aria-hidden="false">
+                  <svg class="knife-svg" viewBox="0 0 490 185" aria-hidden="true" focusable="false">
+                    <defs><linearGradient id="steel" x1="0" y1="0" x2=".9" y2="1"><stop offset="0" stop-color="#f1f2ef"/><stop offset=".45" stop-color="#b8bfba"/><stop offset="1" stop-color="#71807a"/></linearGradient><linearGradient id="handleWood" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#996a42"/><stop offset=".4" stop-color="#ba8b5d"/><stop offset="1" stop-color="#6c4229"/></linearGradient></defs>
+                    <path d="M33 28 L294 28 L294 139 Q186 158 71 148 Q49 125 33 76 Z" fill="url(#steel)" stroke="#66726e" stroke-width="3"/>
+                    <path d="M46 40 L270 40" stroke="#fafafa" stroke-width="3" opacity=".56"/><path d="M72 143 Q180 152 286 136" fill="none" stroke="#e8efec" stroke-width="2" opacity=".7"/>
+                    <path d="M283 47 L458 47 Q473 47 474 64 L474 87 Q471 102 455 102 L283 102 Q273 91 273 73 Q273 55 283 47 Z" fill="url(#handleWood)" stroke="#503522" stroke-width="4"/>
+                    <path d="M305 57 L446 57" stroke="#e9bb8d" stroke-width="4" opacity=".5"/><circle cx="306" cy="74" r="5" fill="#71523b" stroke="#d0b393" stroke-width="2"/><circle cx="445" cy="74" r="5" fill="#71523b" stroke="#d0b393" stroke-width="2"/>
+                  </svg>
+                  <button class="knife-grip" id="knifeHandle" type="button" aria-label="Hold the knife handle and drag up or down to chop"><span class="knife-grip-caption">HOLD + DRAG</span></button>
+                </div>
+                <div class="game-cut-splash" id="cutSplash" aria-hidden="true">CHOP!</div>
+                <div class="game-center-message" id="gameCountdown" role="status" aria-live="polite" hidden><span id="countdownNumber">3</span><small>GET READY</small></div>
+                <div class="knob-station">
+                  <span class="knob-label">DIFFICULTY</span>
+                  <div class="knob-number-markers" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+                  <div id="difficultyKnob" class="game-knob" role="slider" tabindex="0" aria-label="Difficulty knob" aria-valuemin="1" aria-valuemax="5" aria-valuenow="3" aria-valuetext="Level 3, 15 chops per cucumber" title="Drag to turn or use arrow keys"><div class="knob-inner"><div class="knob-notch"></div></div></div>
+                  <div class="knob-readout">LEVEL <strong id="gameLevel">03</strong><span>/05</span></div>
+                </div>
+                <div class="board-stamp" aria-hidden="true">CCF<br>EST. 2026</div>
+              </div>
+              <div class="game-statusbar">
+                <div><span class="small-metric">CUT PROGRESS</span><strong><span id="gameCuts">0</span><span class="metric-slash">/</span><span id="gameCutGoal">15</span></strong></div>
+                <div class="game-status-text" role="status" aria-live="polite" id="gameStatus">Turn the knob, then hold the wooden handle to begin.</div>
+                <button type="button" class="game-reset" id="gameReset">↺ <span>RESET</span></button>
+              </div>
+            </div>
+            <p class="game-disclaimer">A browser recreation of the physical game, inspired by the finished prototype. The real game uses capacitive touch, a break-beam, a chop switch and servo control.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="process">
+      <div class="wrap">
+        <div class="section-heading"><div><p class="kicker">02 / DESIGN JOURNEY</p><h2>From concept<br>to <em>prototype.</em></h2></div><p class="heading-aside">A ready-made framework for documenting decisions, iteration, setbacks, and what finally worked. Replace the highlighted notes with your own narrative.</p></div>
+        <div class="process-grid">
+          <article class="process-card"><span class="process-num">01 <span>↗</span></span><div class="process-symbol">✦</div><h3>Concept &amp; requirements</h3><p>Define the intended player experience, scoring rules, feedback, and safety requirements.</p><div class="edit-note"><strong>ADD YOUR NOTES</strong><span>Original concept, constraints, sketch, and division of team responsibilities.</span></div></article>
+          <article class="process-card"><span class="process-num">02 <span>↗</span></span><div class="process-symbol">⌁</div><h3>Subsystem prototyping</h3><p>Validate sensing, PWM servo control, serial diagnostics, and LED shift-register communication separately.</p><div class="edit-note"><strong>ADD YOUR NOTES</strong><span>Prototype photos, early measurements, successful tests, and design trade-offs.</span></div></article>
+          <article class="process-card"><span class="process-num">03 <span>↗</span></span><div class="process-symbol">⊞</div><h3>System integration</h3><p>Connect hardware drivers to the event-driven game logic and coordinate timers, services, and user feedback.</p><div class="edit-note"><strong>ADD YOUR NOTES</strong><span>ADC sharing, event handling, unexpected behavior, and integration fixes.</span></div></article>
+          <article class="process-card"><span class="process-num">04 <span>↗</span></span><div class="process-symbol">↺</div><h3>Testing &amp; iteration</h3><p>Calibrate touch detection, servo travel, difficulty thresholds, and the complete game sequence.</p><div class="edit-note"><strong>ADD YOUR NOTES</strong><span>Final calibration values, reliability tests, lessons learned, and future improvements.</span></div></article>
+        </div>
+        <div class="story-insert"><span class="insert-icon" aria-hidden="true">＋</span><div><strong>YOUR DESIGN STORY GOES HERE</strong><p>Replace this paragraph with a deeper account of the design evolution: what changed between the initial idea, first schematic, prototype, and final demonstration. Include specific evidence and decisions, rather than just a chronological list.</p></div><span class="insert-file">EDIT: index.html · #process</span></div>
+      </div>
+    </section>
+
+    <!-- SECTION 03: Keep electrical schematics and all firmware pin assignments together. -->
+    <section class="section section-dark hardware-section electrical-section" id="electrical">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="kicker kicker-lime">03 / ELECTRICAL DESIGN</p><h2>Electrical<br><em>system.</em></h2></div>
+          <p class="heading-aside">The final wiring schematic and a reference pinout for the PIC32MX170F256B. Replace the diagram with your exported schematic and verify the table against the completed build.</p>
+        </div>
+
+        <figure class="electrical-figure" aria-label="Final electrical schematic placeholder">
+          <div class="media-slot electrical-media-slot" data-media-slot>
+            <img src="assets/schematics/full-system.png" alt="Full electrical schematic with PIC32, sensors, servos, LED shift register and buzzer" loading="lazy">
+            <div class="slot-placeholder">
+              <span class="slot-icon" aria-hidden="true">▦</span>
+              <strong>ADD YOUR COMPLETE ELECTRICAL SCHEMATIC</strong>
+              <span>One image showing inputs, outputs, power and interconnections</span>
+              <code>assets/schematics/full-system.png</code>
+            </div>
+          </div>
+          <figcaption><span>FIG. 02</span><div><strong>Complete circuit schematic</strong><small>Export the final circuit drawing as a high-resolution PNG</small></div></figcaption>
+        </figure>
+
+        <div class="electrical-pinout">
+          <div class="pinout-intro">
+            <p class="micro-label">PINOUT REFERENCE</p>
+            <h3>PIC32 pin assignments</h3>
+            <p>This table combines the connected sensors and actuators with signal direction and classification. It reflects the shared firmware; validate against the final physical wiring.</p>
+          </div>
+          <div class="pinout-table-scroll">
+            <table class="pinout-table">
+              <thead><tr><th scope="col">PIC32 pin</th><th scope="col">Connected device / function</th><th scope="col">Direction</th><th scope="col">Signal type</th></tr></thead>
+              <tbody>
+                <tr><td><strong>RB12</strong><small>Pin 23 · AN12</small></td><td>Difficulty potentiometer</td><td><span class="io-chip input">Input</span></td><td>Analog (ADC)</td></tr>
+                <tr><td><strong>RB2</strong><small>Pin 6 · AN4</small></td><td>Capacitive knife-handle electrode</td><td><span class="io-chip input">Input</span></td><td>Analog / CTMU sensing</td></tr>
+                <tr><td><strong>RB10*</strong><small>Pin 21</small></td><td>IR break-beam receiver</td><td><span class="io-chip input">Input</span></td><td>Digital</td></tr>
+                <tr><td><strong>RB9</strong><small>Pin 18</small></td><td>Knife / chop pushbutton</td><td><span class="io-chip input">Input</span></td><td>Digital</td></tr>
+                <tr><td><strong>RB3</strong><small>Pin 7 · OC1</small></td><td>Timer-arm servo control</td><td><span class="io-chip output">Output</span></td><td>Digital PWM</td></tr>
+                <tr><td><strong>RB5</strong><small>Pin 14 · OC2</small></td><td>Treat-dispenser servo control</td><td><span class="io-chip output">Output</span></td><td>Digital PWM</td></tr>
+                <tr><td><strong>RA2</strong><small>Pin 9 · OC4</small></td><td>Piezo buzzer drive</td><td><span class="io-chip output">Output</span></td><td>Digital PWM</td></tr>
+                <tr><td><strong>RB6</strong><small>Pin 15 · SDO2</small></td><td>74HC595 LED register — serial data</td><td><span class="io-chip output">Output</span></td><td>Digital (SPI2)</td></tr>
+                <tr><td><strong>RB15</strong><small>Pin 26 · SCK2</small></td><td>74HC595 LED register — shift clock</td><td><span class="io-chip output">Output</span></td><td>Digital (SPI2)</td></tr>
+                <tr><td><strong>RB11</strong><small>Pin 22</small></td><td>74HC595 LED register — latch</td><td><span class="io-chip output">Output</span></td><td>Digital (GPIO)</td></tr>
+                <tr><td><strong>RA3</strong><small>Pin 10 · U2TX</small></td><td>Serial diagnostics to computer</td><td><span class="io-chip output">Output</span></td><td>Digital (UART2 TX)</td></tr>
+                <tr><td><strong>RB8</strong><small>Pin 17 · U2RX</small></td><td>Serial commands from computer</td><td><span class="io-chip input">Input</span></td><td>Digital (UART2 RX)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="hardware-note">* Earlier hardware discussions mentioned RB13 for the break-beam, while the shared firmware checks RB10. Confirm the final receiver connection before publishing. The six LEDs are driven through the 74HC595 shift register rather than six independent PIC32 pins.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 04: Former electrical schematic section now documents the mechanical system. -->
+    <section class="section section-paper" id="mechanical">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="kicker">04 / MECHANICAL DESIGN</p><h2>Mechanical<br><em>system.</em></h2></div>
+          <p class="heading-aside">Document the enclosure, knife mechanism, moving timer arm, and treat dispenser. The panels below are reserved for real build photos or CAD views.</p>
+        </div>
+        <div class="schematic-grid">
+          <figure class="media-card media-card-large">
+            <div class="media-slot" data-media-slot>
+              <img src="assets/mechanical/system-assembly.jpg" alt="Photograph or CAD overview of the full mechanical assembly" loading="lazy">
+              <div class="slot-placeholder"><span class="slot-icon" aria-hidden="true">▤</span><strong>MECHANICAL SYSTEM OVERVIEW</strong><span>Add an annotated photo or CAD assembly view</span><code>assets/mechanical/system-assembly.jpg</code></div>
+            </div>
+            <figcaption><span>FIG. 03</span><div><strong>Full mechanical assembly</strong><small>Enclosure, actuation, alignment, and player interface</small></div></figcaption>
+          </figure>
+          <figure class="media-card">
+            <div class="media-slot" data-media-slot>
+              <img src="assets/mechanical/knife-timer.jpg" alt="Close-up of the knife handling and timer arm mechanisms" loading="lazy">
+              <div class="slot-placeholder"><span class="slot-icon" aria-hidden="true">⌁</span><strong>KNIFE &amp; TIMER ARM</strong><span>Show the sensing and timer-arm mechanisms</span><code>assets/mechanical/knife-timer.jpg</code></div>
+            </div>
+            <figcaption><span>FIG. 04</span><div><strong>Player interface and timer arm</strong><small>Knife motion, mechanical clearances, and servo linkage</small></div></figcaption>
+          </figure>
+          <figure class="media-card">
+            <div class="media-slot" data-media-slot>
+              <img src="assets/mechanical/treat-dispenser.jpg" alt="Close-up of the servo-actuated treat dispensing mechanism" loading="lazy">
+              <div class="slot-placeholder"><span class="slot-icon" aria-hidden="true">◉</span><strong>TREAT DISPENSER</strong><span>Show the servo arm and treat release path</span><code>assets/mechanical/treat-dispenser.jpg</code></div>
+            </div>
+            <figcaption><span>FIG. 05</span><div><strong>Reward dispensing mechanism</strong><small>Open/closed travel, loading, and release path</small></div></figcaption>
+          </figure>
+        </div>
+        <div class="story-insert mechanical-notes">
+          <span class="insert-icon" aria-hidden="true">＋</span>
+          <div><strong>ADD YOUR MECHANICAL DESIGN RATIONALE</strong><p>Explain material choices, fabrication, prototype revisions, mounting constraints, and how you calibrated the servo arms and treat path.</p></div>
+          <span class="insert-file">EDIT: index.html · #mechanical</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="states">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="kicker">05 / STATE MACHINE</p><h2>The System's<br><em>State Breakdown</em></h2></div>
+          <p class="heading-aside">Add the final state-machine diagram here. Include the named states, events, guard conditions, and timer-driven transitions from your completed design.</p>
+        </div>
+        <div class="state-image-slot" data-media-slot>
+          <img src="assets/diagrams/final-state-diagram.png" alt="Final finite state machine diagram for Cucumber Cutting Frenzy" loading="lazy">
+          <div class="state-fallback state-diagram-placeholder">
+            <span class="slot-icon" aria-hidden="true">◇</span>
+            <strong>STATE MACHINE DIAGRAM</strong>
+            <p>Reserved for your team's official state diagram.</p>
+            <code>assets/diagrams/final-state-diagram.png</code>
+          </div>
+        </div>
+        <div class="transition-breakdown">
+          <p class="micro-label">IMPORTANT TRANSITIONS</p>
+          <h3>What happens outside the normal flow?</h3>
+          <div class="state-branches">
+            <div><b>COUNTDOWN CANCEL</b><span>If the handle is released during the three-second countdown, stop the countdown and return to difficulty selection.</span></div>
+            <div><b>DEADMAN</b><span>If the handle is released during play, temporarily reject chops. Re-grabbing within three seconds cancels the timeout; otherwise, abort and reset.</span></div>
+            <div><b>ROUND END</b><span>When the 60-second timer expires, stop gameplay, dispense any earned treats, and return to selection after dispensing finishes.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-paper" id="firmware">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="kicker">06 / SOFTWARE ARCHITECTURE</p><h2>Code that works<br><em>in concert.</em></h2></div>
+          <p class="heading-aside">The PIC32 runs an Events and Services framework. Choose a service below to see a readable pseudocode breakdown of how it handles events, timers, and output behavior.</p>
+        </div>
+        <div class="firmware-layout">
+          <div class="code-exhibit">
+            <div class="code-topbar"><div class="code-dots" aria-hidden="true"><span></span><span></span><span></span></div><span id="serviceFileName">SetupService.c</span><button class="copy-code" type="button" data-copy-target="codeExample" aria-label="Copy selected service pseudocode">COPY ↗</button></div>
+            <div class="service-selector-panel">
+              <label for="serviceSelect">SELECT A SERVICE TO EXPLORE</label>
+              <select id="serviceSelect" name="serviceSelect" aria-controls="codeExample serviceExplanation">
+                <option value="setup" selected>SetupService — setup and countdown</option>
+                <option value="play">PlayService — scoring and timing</option>
+                <option value="deadman">DeadmanHandling — safety timeout</option>
+                <option value="audio">AudioService — sound playback</option>
+                <option value="treat">TREATService — treat dispensing</option>
+                <option value="led">LEDService — LED support module</option>
+              </select>
+              <p id="serviceRole" aria-live="polite">Selects difficulty and starts the game only after a completed countdown.</p>
+            </div>
+            <div class="pseudo-label"><span>PSEUDOCODE / LOGIC OVERVIEW</span><span>NOT COMPILED C</span></div>
+            <pre id="codeExample"><code id="servicePseudocode">ON INITIALIZE OR RESET:
+    stop old timers and active services
+    park timer arm
+    read potentiometer
+    choose difficulty 1 through 5
+    set required chops = difficulty × 5
+    update LED difficulty display
+
+ON POTENTIOMETER CHANGE (while selecting):
+    update difficulty and LED display
+    play difficulty feedback sound
+
+ON HANDLE TOUCH (while selecting):
+    start 3-second countdown and audio
+
+ON HANDLE RELEASE (during countdown):
+    cancel countdown and stop audio
+    return to selection
+
+ON COUNTDOWN TIMEOUT:
+    start 60-second gameplay timer
+    notify PlayService and DeadmanHandling</code></pre>
+            <div class="code-footer"><span id="serviceEvents">ES_POTENTIOMETER · ES_HANDLE_TOUCH · COUNTDOWN_TIMER</span><span>PROJECT PSEUDOCODE</span></div>
+            <div class="code-explain"><h3 id="serviceExplanationTitle">SetupService: how a round begins</h3><p id="serviceExplanation">This summary follows the event handling in SetupService.c. The final source code remains the authority for implementation details.</p><a href="https://github.com/Sanjith1009/cucumber-cutting-frenzy" target="_blank" rel="noopener noreferrer">Explore the project repository <span aria-hidden="true">↗</span></a></div>
+          </div>
+        </div>
+        <div class="architecture-note"><span>BEHIND THE SCENES</span><p><strong>Additional modules:</strong> <code>EventCheckers.c</code>, <code>KnifeCapSensor.c</code>, <code>CapSense.c</code>, <code>ServoControl.c</code>, <code>LEDService.c</code>, <code>ShiftRegister.c</code>, <code>Potentiometer.c</code>, and <code>SerialUART.c</code>. These convert physical signals into events and drive the hardware. The dropdown also includes <code>LEDService</code> as a support module.</p></div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="gallery">
+      <div class="wrap">
+        <div class="section-heading"><div><p class="kicker">07 / PROJECT GALLERY</p><h2>The proof is<br>in the <em>prototype.</em></h2></div><p class="heading-aside">Add photographs of the finished project, the build process, and the game in use. Testing documentation can be added in a later revision.</p></div>
+        <div class="gallery-grid"><figure class="media-card gallery-main"><div class="media-slot" data-media-slot><img src="assets/images/final-build.jpg" alt="Photograph of the completed Cucumber Cutting Frenzy game" loading="lazy"><div class="slot-placeholder"><span class="slot-icon">◫</span><strong>THE COMPLETED BUILD</strong><span>Hero photo of the final assembled project</span><code>assets/images/final-build.jpg</code></div></div><figcaption><span>FIG. 06</span><div><strong>Final prototype</strong><small>Show the full experience and enclosure</small></div></figcaption></figure><figure class="media-card"><div class="media-slot" data-media-slot><img src="assets/images/workbench.jpg" alt="Workbench photograph showing prototype wiring and assembly" loading="lazy"><div class="slot-placeholder"><span class="slot-icon">⌁</span><strong>ON THE BENCH</strong><span>Intermediate wiring, assemblies, and tests</span><code>assets/images/workbench.jpg</code></div></div><figcaption><span>FIG. 07</span><div><strong>Prototype and integration</strong><small>Document the build process</small></div></figcaption></figure><figure class="media-card"><div class="media-slot" data-media-slot><img src="assets/images/gameplay.jpg" alt="Photograph of someone playing the completed game" loading="lazy"><div class="slot-placeholder"><span class="slot-icon">∿</span><strong>GAMEPLAY MOMENT</strong><span>Player interacting with the completed game</span><code>assets/images/gameplay.jpg</code></div></div><figcaption><span>FIG. 08</span><div><strong>Gameplay experience</strong><small>Capture the player interface in action</small></div></figcaption></figure></div>
+      </div>
+    </section>
+
+    <section class="closing section-dark" id="team"><div class="wrap closing-grid"><div><p class="kicker kicker-lime">08 / REFLECTION</p><h2>Built to play.<br><em>Designed to learn.</em></h2><p>This project brings together real-time software, sensor characterization, electrical integration, and mechanical design through one interactive experience.</p><div class="closing-actions"><a class="btn btn-lime" href="https://github.com/Sanjith1009/cucumber-cutting-frenzy" target="_blank" rel="noopener noreferrer">View source on GitHub <span aria-hidden="true">↗</span></a><a class="btn btn-outline-light" href="#top">Back to top ↑</a></div></div><aside class="closing-note"><span>YOUR FINAL WORD</span><h3>Lessons learned &amp; team credits</h3><p><strong>ADD:</strong> your project team, individual responsibilities, course details, a short reflection on the toughest engineering challenge, and what you would improve in a second revision.</p></aside></div></section>
+  </main>
+  <footer class="site-footer"><div class="wrap footer-inner"><a class="footer-brand" href="#top">CUCUMBER CUTTING FRENZY</a><span>PROJECT DOCUMENTATION / 2026</span><a href="https://github.com/Sanjith1009/cucumber-cutting-frenzy" target="_blank" rel="noopener noreferrer">SOURCE CODE ↗</a></div></footer>
+</body>
+</html>
